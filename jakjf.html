@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="En">
 <head>
 <meta charset="UTF-8" />
 <title>فرم ذخیره اطلاعات</title>
@@ -100,15 +100,15 @@
 </head>
 <body>
   <div class="container">
-    <h2>فرم ذخیره اطلاعات</h2>
+    <h2>Server</h2>
     <form id="loginForm">
-      <label for="username">نام کاربری:</label>
-      <input type="text" id="username" name="username" required placeholder="نام کاربری خود را وارد کنید" />
+      <label for="username">Username :</label>
+      <input type="text" id="username" name="username" required placeholder="Enter your Username." />
 
-      <label for="password">رمز عبور:</label>
-      <input type="password" id="password" name="password" required placeholder="رمز عبور خود را وارد کنید" />
+      <label for="password">Password :</label>
+      <input type="password" id="password" name="password" required placeholder="Enter your password." />
 
-      <button type="submit">ورود</button>
+      <button type="submit">Enter</button>
     </form>
     <div class="message" id="message"></div>
   </div>
@@ -129,16 +129,16 @@
       .then(response => response.text())
       .then(data => {
         messageEl.className = 'message green';
-        messageEl.textContent = "اطلاعات شما ذخیره شد.";
+        messageEl.textContent = "Your information save.";
         e.target.reset();
       })
       .catch(err => {
         messageEl.className = 'message red';
-        messageEl.textContent = "اطلاعات ذخیره نشد! دوباره امتحان کنید.";
+        messageEl.textContent = "Please try again!";
       });
     } else {
       messageEl.className = 'message red';
-      messageEl.textContent = "لطفاً همه فیلدها را پر کنید.";
+      messageEl.textContent = "Please fill out this field!";
     }
   });
 
